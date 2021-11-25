@@ -1,11 +1,10 @@
 import cv2
 import numpy as np
 import convertbase64toimage as cvbi
-
+import convertbase64toimages as cvbi1
 
 def read(image):
     image =cvbi.convert(image)
-    print(image)
     weights_link = 'yolov2-tiny_6000.weights'
     config_link = 'yolov2-tiny .cfg'
     Width = image.shape[1]
@@ -29,7 +28,7 @@ def read(image):
             scores = detection[5:]
             class_id = np.argmax(scores)
             confidence = scores[class_id]
-            if confidence > 0.5:
+            if confidence > 0.995:
                 center_x = int(detection[0] * Width)
                 center_y = int(detection[1] * Height)
                 w = int(detection[2] * Width)
@@ -42,6 +41,7 @@ def read(image):
 
     indices = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
     data = ""
+    title="Fire hazard detected: high hazard"
     for i in indices:
         i = i[0]
         box = boxes[i]
@@ -49,10 +49,11 @@ def read(image):
         y = box[1]
         w = box[2]
         h = box[3]
-        data +=str({"id":class_ids[i],"x": round(x),"y": round(y),"xw": round(x + w),"yh": round(y + h)})
+        data +=str({"id":class_ids[i],"title":title,"x": round(x),"y": round(y),"xw": round(x + w),"yh": round(y + h)})
     if not data:
-       return {"message":"Not Found"}
-
+        title="Fire hazard detected: low hazard"
+        data = str({"id": 2, "title": title, "x": 2, "y": 2, "xw": 500, "yh": 500})
+    # {"message": "Not Found"}
     return data
 
 def get_output_layers(net):
@@ -60,3 +61,5 @@ def get_output_layers(net):
     output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
     return output_layers
 
+hinhanh=cvbi1.convert('hinh.jpg')
+print(read(hinhanh))

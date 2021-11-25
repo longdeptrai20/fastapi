@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI
 import objectdetect as od
 
 app = FastAPI()
@@ -6,4 +6,6 @@ app = FastAPI()
 async def objectdetect(hinhanh: str):
     object_detect = od.read(hinhanh)
     return object_detect
-# uvicorn my_server:app
+#if __name__ == "__main__":
+#    uvicorn.run(app, host="0.0.0.0", port=8000)
+# uvicorn WebService.main:app

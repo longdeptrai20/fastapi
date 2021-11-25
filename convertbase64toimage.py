@@ -11,4 +11,3 @@ def convert(anh_base64):
     return anh_base64
 
 
-hinhanh=''
