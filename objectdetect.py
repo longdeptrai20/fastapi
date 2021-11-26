@@ -61,5 +61,3 @@ def get_output_layers(net):
     output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
     return output_layers
 
-hinhanh=cvbi1.convert('hinh.jpg')
-print(read(hinhanh))
